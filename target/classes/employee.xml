@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 名称空间，指定为接口的全类名-->
+<!--id 唯一标识-->
+<!--resultType 返回值类型 这里就是返回一个employee的对象-->
+<!--#{id} 从传递过来的参数中取出id值-->
+<mapper namespace="com.example.demo.permission.repository.UserInfoRepository">
+    <select id="findByUsername" resultType="com.example.demo.permission.bean.UserInfo">
+        select *
+        from mybatis.user
+        where username = #{username};
+    </select>
+    <insert id="insertData">
+        insert into mybatis.user (username, password, role)
+        values (#{username}, #{password}, #{role});
+    </insert>
+</mapper>

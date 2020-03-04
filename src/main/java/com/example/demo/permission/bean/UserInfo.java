@@ -1,5 +1,7 @@
 package com.example.demo.permission.bean;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -7,15 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * 用户实体类. 主要存储用户的 登录名和密码.
+ * 实体类
  *
  * @author alin
  */
-@Entity
 public class UserInfo {
 
-    @Id
-    @GeneratedValue
     private long uid;
 
     private String username;
@@ -26,8 +25,9 @@ public class UserInfo {
     private Role role;
 
     public enum Role {
-    	admin,
-		normal}
+        admin,
+        normal
+    }
 
     public long getUid() {
         return uid;

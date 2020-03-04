@@ -1,7 +1,9 @@
 package com.example.demo.permission.repository;
 
 import com.example.demo.permission.bean.UserInfo;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 
 /**
@@ -9,7 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author alin
  */
-public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
+@Mapper
+public interface UserInfoRepository {
 
     /**
      * 获取数据方法 SpringData 会自动生成sql语句
@@ -17,6 +20,14 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
      * @param username 用户名
      * @return null
      */
+//    @Select("select * from `spring-security`.user_info where username = #{username};")
     UserInfo findByUsername(String username);
 
+    /**
+     * 新增数据
+     *
+     * @param userInfo userInfo
+     */
+    @Options(useGeneratedKeys = true, keyProperty = "uid")
+    void insertData(UserInfo userInfo);
 }
