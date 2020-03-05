@@ -20,7 +20,8 @@ public interface UserInfoRepository {
      * @param username 用户名
      * @return null
      */
-//    @Select("select * from `spring-security`.user_info where username = #{username};")
+    @Select("select * from" +
+            " `spring-security`.user_info where username = #{username};")
     UserInfo findByUsername(String username);
 
     /**
