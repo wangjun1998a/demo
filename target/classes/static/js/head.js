@@ -1,10 +1,22 @@
 const getMenus = function (data) {
     //回显选中
     var ul = $("<ul class='layui-nav layui-nav-tree' lay-filter='test'></ul>");
-    for (var i = 0; i < data.length; i++) {
-        var node = data[i];
+    for (var da = 0; da < data.length; da++) {
+        var node = data[da];
+        var roles = node.roles.split(",");
+        var hasAnyRoles = "";
+        // var hasAnyRoles = "hasAnyRole(";
+        for (var ro = 0; ro < roles.length; ro++) {
+            hasAnyRoles += "\'ROLE_" + roles[ro] + "\'";
+            if (ro < roles.length) {
+                hasAnyRoles += ",";
+            }
+        }
+        hasAnyRoles = hasAnyRoles.substr(0, hasAnyRoles.length - 1);
+        // hasAnyRoles += ")";
+
         var li = $("<li class='layui-nav-item' flag='" + node.id + "'></li>");
-        var a = $("<a class='' href='javascript:;'>" + node.name + "</a>");
+        var a = $("<a class='' sec:authorize='hasAnyRole()' href='javascript:;'>" + node.name + "</a>");
         li.append(a);
         //获取子节点
         var childArray = node.childrens;
@@ -34,7 +46,7 @@ $(function () {
                 element.render('nav');
             } else {
                 layer.alert("权限不足，请联系管理员", function () {
-                    //退出
+                    //退出ww
                     window.location.href = "/logout";
                 });
             }
