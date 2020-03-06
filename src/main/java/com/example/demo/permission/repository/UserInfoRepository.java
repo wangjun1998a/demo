@@ -3,6 +3,7 @@ package com.example.demo.permission.repository;
 import com.example.demo.permission.bean.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 
@@ -24,7 +25,7 @@ public interface UserInfoRepository {
             "from `spring-security`.user_info ui\n" +
             "         left join `spring-security`.user_role ur on ur.user_id = ui.uid\n" +
             "         left join `spring-security`.role r on r.role_id = ur.role_id where ui.username = #{username};")
-    UserInfo findByUsername(String username);
+    UserInfo findByUsername(@Param("username") String username);
 
     /**
      * 新增数据
@@ -32,5 +33,5 @@ public interface UserInfoRepository {
      * @param userInfo userInfo
      */
     @Options(useGeneratedKeys = true, keyProperty = "uid")
-    void insertData(UserInfo userInfo);
+    void insertData(@Param("userInfo") UserInfo userInfo);
 }

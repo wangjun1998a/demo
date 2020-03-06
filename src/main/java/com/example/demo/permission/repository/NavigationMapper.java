@@ -33,7 +33,7 @@ public interface NavigationMapper {
             "where pid = #{pid}\n" +
             "and r.role_key in (#{userRole})" +
             "group by m.id;")
-    List<Navigation> getNavigationListByPid(Integer pid,String userRole);
+    List<Navigation> getNavigationListByPid(@Param("pid") Integer pid, @Param("userRole") String userRole);
 
     /**
      * 获取pid为0的头标识
@@ -55,7 +55,7 @@ public interface NavigationMapper {
             "where pid = 0\n" +
             "and r.role_key in (#{userRole})" +
             "group by m.id;")
-    List<Navigation> getNavigationByPid(String userRole);
+    List<Navigation> getNavigationByPid(@Param("userRole") String userRole);
 
     /**
      * 获取用户角色
