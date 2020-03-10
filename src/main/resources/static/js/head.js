@@ -16,7 +16,7 @@ const getMenus = function (data) {
         // hasAnyRoles += ")";
 
         var li = $("<li class='layui-nav-item' flag='" + node.id + "'></li>");
-        var a = $("<a class='' sec:authorize='hasAnyRole()' href='javascript:;'>" + node.name + "</a>");
+        var a = $("<a class='' href='javascript:;' target='centerFrame'>" + node.name + "</a>");
         li.append(a);
         //获取子节点
         var childArray = node.childrens;
@@ -24,7 +24,7 @@ const getMenus = function (data) {
             // a.append("<span class='layui-nav-more'></span>");
             var dl = $("<dl class='layui-nav-child'></dl>");
             for (var y in childArray) {
-                var dd = $("<dd><a href='" + childArray[y].url + "'>" + childArray[y].name + "</a></dd>");
+                var dd = $("<dd><a href='" + childArray[y].url + "' target='centerFrame'>" + childArray[y].name + "</a></dd>");
                 dl.append(dd);
             }
             li.append(dl);

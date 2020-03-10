@@ -3,6 +3,7 @@ package com.example.demo.permission.service.impl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,10 +30,12 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
 //    }
 
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.formLogin().loginPage("/login");
-//    }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
+        http.csrf(csrf -> csrf.disable());
+        super.configure(http);
+    }
 
     @Bean
     public PasswordEncoder myPasswordEncoder() {

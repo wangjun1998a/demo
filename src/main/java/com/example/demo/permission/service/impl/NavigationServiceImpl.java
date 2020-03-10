@@ -1,10 +1,10 @@
 package com.example.demo.permission.service.impl;
 
+import com.example.demo.permission.bean.MenuTable;
 import com.example.demo.permission.bean.Navigation;
 import com.example.demo.permission.repository.NavigationMapper;
 import com.example.demo.permission.service.NavigationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +22,45 @@ public class NavigationServiceImpl implements NavigationService {
 
     @Override
     public Map<String, Object> findMenu() {
+        // 获取用户角色
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = navigationMapper.getUserRole(userName);
         Map<String, Object> data = new HashMap<>();
         //按照pid获取到根目录进行存储对应的子目录
         List<Navigation> navId = navigationMapper.getNavigationByPid(userRole);
         for (Navigation nav : navId) {
-            List<Navigation> list = navigationMapper.getNavigationListByPid(nav.getId(),userRole);
+            List<Navigation> list = navigationMapper.getNavigationListByPid(nav.getId(), userRole);
             nav.setChildrens(list);
         }
         data.put("menu", navId);
         return data;
 
     }
+
+    @Override
+    public Map<String, Object> findMenuTable() {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userRole = navigationMapper.getUserRole(userName);
+        Map<String, Object> data = new HashMap<>();
+        //按照pid获取到根目录进行存储对应的子目录
+        List<MenuTable> menuTable = navigationMapper.getMenuTable();
+        data.put("code", 0);
+        data.put("msg", "");
+        data.put("count", menuTable.size());
+        data.put("data", menuTable);
+        return data;
+    }
+
+    /**
+     * 插入一个新的界面
+     * 1。创建一个新的菜单
+     * 2。创建菜单和权限的关联关系(目前只使用admin)
+     */
+    @Override
+    public String insertData(String name, Integer pid, String descpt, String url) {
+        navigationMapper.insertData(name, pid, descpt, url);
+        navigationMapper.menuCorrelationWithRole(name, pid, descpt, url);
+        return "200";
+    }
+
 }
