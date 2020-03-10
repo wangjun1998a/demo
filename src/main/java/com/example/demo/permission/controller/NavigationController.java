@@ -34,11 +34,20 @@ public class NavigationController {
         return navigationService.findMenuTable();
     }
 
-    @GetMapping("/insertData")
+    @GetMapping("/insertMenu")
     @ResponseBody
     @PreAuthorize("hasAnyRole('admin')")
-    public String insertData(String name, Integer pid, String descpt, String url) {
-        navigationService.insertData(name, pid, descpt, url);
+    public String insertMenu(String name, Integer pid, String descpt, String url) {
+        navigationService.insertMenu(name, pid, descpt, url);
+        return "200";
+    }
+
+
+    @GetMapping("/deleteMenu")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('admin')")
+    public String deleteMenu(String id) {
+        navigationService.deleteMenu(id);
         return "200";
     }
 

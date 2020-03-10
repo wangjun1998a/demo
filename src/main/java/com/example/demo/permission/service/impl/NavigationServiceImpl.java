@@ -57,10 +57,21 @@ public class NavigationServiceImpl implements NavigationService {
      * 2。创建菜单和权限的关联关系(目前只使用admin)
      */
     @Override
-    public String insertData(String name, Integer pid, String descpt, String url) {
-        navigationMapper.insertData(name, pid, descpt, url);
+    public String insertMenu(String name, Integer pid, String descpt, String url) {
+        navigationMapper.insertMenu(name, pid, descpt, url);
         navigationMapper.menuCorrelationWithRole(name, pid, descpt, url);
         return "200";
     }
 
+    /**
+     * 删除菜单 实际上就是吧del_flag变成1
+     *
+     * @param id 菜单ID
+     * @return 200
+     */
+    @Override
+    public String deleteMenu(String id) {
+        navigationMapper.deleteMenu(id);
+        return "200";
+    }
 }

@@ -2,10 +2,8 @@ package com.example.demo.permission.repository;
 
 import com.example.demo.permission.bean.MenuTable;
 import com.example.demo.permission.bean.Navigation;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -20,8 +18,12 @@ public interface NavigationMapper {
      *
      * @return 菜单表
      */
-    @Select("select * from `spring-security`.menu m " +
-            "where m.del_flag = '0';")
+    @Select("select *\n" +
+            "from `spring-security`.menu m\n" +
+            "where m.del_flag = '0'\n" +
+            "  " +
+            "and del_flag = '0'" +
+            ";")
     List<MenuTable> getMenuTable();
 
     /**
@@ -43,8 +45,11 @@ public interface NavigationMapper {
             "         left join `spring-security`.menu_role mr on m.id = mr.menu_id\n" +
             "         left join `spring-security`.role r on r.role_id = mr.role_id\n" +
             "where pid = #{pid}\n" +
-            "and r.role_key in (#{userRole})" +
-            "group by m.id;")
+            "  " +
+            "and r.role_key in (#{userRole})\n" +
+            "  " +
+            "and m.del_flag = '0'\n" +
+            "group by m.id;\n")
     List<Navigation> getNavigationListByPid(@Param("pid") Integer pid, @Param("userRole") String userRole);
 
     /**
@@ -92,7 +97,7 @@ public interface NavigationMapper {
      */
     @Insert(value = "insert into `spring-security`.menu (name, pid, descpt, url, create_time, del_flag)\n" +
             "values (#{name}, #{pid}, #{descpt}, #{url}, now(), '0');")
-    void insertData(String name, Integer pid, String descpt, String url);
+    void insertMenu(String name, Integer pid, String descpt, String url);
 
     /**
      * 创建菜单和权限的关联关系
@@ -113,4 +118,14 @@ public interface NavigationMapper {
             "           and url = #{url}" +
             "), 1);")
     void menuCorrelationWithRole(String name, Integer pid, String descpt, String url);
+
+    /**
+     * 删除菜单数据 实际使用update语句就行了。
+     *
+     * @param id 菜单ID
+     */
+    @Update("update `spring-security`.menu\n" +
+            "set menu.del_flag = 1\n" +
+            "where id = #{id};\n")
+    void deleteMenu(@Param("id") String id);
 }

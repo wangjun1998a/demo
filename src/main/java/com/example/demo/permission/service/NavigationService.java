@@ -1,5 +1,7 @@
 package com.example.demo.permission.service;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.Map;
 
 /**
@@ -27,6 +29,14 @@ public interface NavigationService {
      * @param pid    pid
      * @param descpt descpt
      * @param url    url
+     * @return 200
      */
-    String insertData(String name, Integer pid, String descpt, String url);
+    String insertMenu(@Param("name") String name, @Param("pid") Integer pid, @Param("descpt") String descpt, @Param("url") String url);
+
+    /**
+     *  删除菜单数据
+     * @param id 菜单ID
+     * @return  200
+     */
+    String deleteMenu(@Param("id") String id);
 }

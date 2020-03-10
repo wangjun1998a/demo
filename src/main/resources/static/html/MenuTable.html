@@ -39,6 +39,7 @@
                 , data = checkStatus.data; //获取选中的数据
             switch (obj.event) {
                 case 'add':
+                    window.table = table;
                     layer.open({
                         type: 2,
                         title: '添加',
@@ -60,7 +61,22 @@
                     if (data.length === 0) {
                         layer.msg('请选择一行');
                     } else {
-                        layer.msg('删除');
+                        $.ajax({
+                            url: "/getData/deleteMenu",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                id: checkStatus.data[0].id
+                            },
+                            success: function (msg) {
+                                if (msg == "200") {
+                                    //显示提示框
+                                    layer.msg("删除成功。", {icon: 6});
+                                } else {
+                                    layer.msg("删除失败。", {icon: 5});
+                                }
+                            }
+                        });
                     }
                     break;
             }

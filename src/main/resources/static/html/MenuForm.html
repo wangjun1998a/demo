@@ -57,13 +57,13 @@
 </body>
 
 <script>
-    layui.use('form', function () {
+    layui.use(['form','layer'], function () {
         var form = layui.form;
+        var layer = layui.layer;
         //监听提交
         form.on('submit(formDemo)', function (data) {
-            // layer.msg(JSON.stringify(data.field));
             $.ajax({
-                url: "/getData/insertData",
+                url: "/getData/insertMenu",
                 type: "POST",
                 dataType: "json",
                 data: {
@@ -74,10 +74,14 @@
                 },
                 success: function (msg) {
                     if (msg == "200") {
-                        //关闭弹框
-                        layer.closeAll();
-                        //显示提示框
                         layer.msg("新增成功，单击外部位置退出。", {icon: 6});
+                        //关闭弹框
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                        parent.layer.close(index); //再执行关闭
+                        // layer.closeAll(parent.table);
+                        //显示提示框
+
                     } else {
                         layer.msg("新增失败，单击外部位置退出。", {icon: 5});
                     }
