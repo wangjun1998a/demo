@@ -46,10 +46,9 @@ public interface NavigationMapper {
             "         left join `spring-security`.role r on r.role_id = mr.role_id\n" +
             "where pid = #{pid}\n" +
             "  " +
-            "and r.role_key in (#{userRole})\n" +
-            "  " +
+            "and r.role_key in (#{userRole}) \n" +
             "and m.del_flag = '0'\n" +
-            "group by m.id;\n")
+            "group by m.id;")
     List<Navigation> getNavigationListByPid(@Param("pid") Integer pid, @Param("userRole") String userRole);
 
     /**

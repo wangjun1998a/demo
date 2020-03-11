@@ -1,12 +1,7 @@
 package com.example.demo.permission.bean;
 
-import lombok.Data;
-
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 /**
  * 实体类

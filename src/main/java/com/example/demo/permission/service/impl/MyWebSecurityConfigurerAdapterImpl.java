@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,22 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAdapter {
 
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("admin")
-//                .password(myPasswordEncoder().encode("123"))
-//                .roles("admin");
-//        auth.inMemoryAuthentication().withUser("user")
-//                .password(myPasswordEncoder().encode("123456"))
-//                .roles("normal");
-//    }
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable();
-        http.csrf(csrf -> csrf.disable());
+        http.csrf(AbstractHttpConfigurer::disable);
+//        http.csrf(csrf -> csrf.disable());
         super.configure(http);
     }
 
