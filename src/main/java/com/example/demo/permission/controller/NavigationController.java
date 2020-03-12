@@ -24,6 +24,7 @@ public class NavigationController {
     @PreAuthorize("hasAnyRole('admin','normal')")
 
     public Map<String, Object> findMenu() {
+        System.out.println("NavigationController----findMenu");
         return navigationService.findMenu();
     }
 
