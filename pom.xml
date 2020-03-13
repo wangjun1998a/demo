@@ -19,7 +19,12 @@
     </properties>
 
     <dependencies>
-<!--        JsonWebToken-->
+        <!--        AOP-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--        JsonWebToken-->
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -37,7 +42,7 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
-<!--        lombok-->
+        <!--        lombok-->
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -47,12 +52,12 @@
         </dependency>
 
         <!--        mybatis-->
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.mybatis/mybatis &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.mybatis</groupId>-->
-<!--            <artifactId>mybatis</artifactId>-->
-<!--            <version>3.5.4</version>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.mybatis/mybatis &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.mybatis</groupId>-->
+        <!--            <artifactId>mybatis</artifactId>-->
+        <!--            <version>3.5.4</version>-->
+        <!--        </dependency>-->
         <!--        模版引擎-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -63,13 +68,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-<!--        内存数据库-->
-<!--        <dependency>-->
-<!--            <groupId>org.hsqldb</groupId>-->
-<!--            <artifactId>hsqldb</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-<!--        mysql数据库-->
+        <!--        内存数据库-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.hsqldb</groupId>-->
+        <!--            <artifactId>hsqldb</artifactId>-->
+        <!--            <scope>runtime</scope>-->
+        <!--        </dependency>-->
+        <!--        mysql数据库-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

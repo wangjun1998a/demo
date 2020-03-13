@@ -96,7 +96,10 @@ public interface NavigationMapper {
      */
     @Insert(value = "insert into `spring-security`.menu (name, pid, descpt, url, create_time, del_flag)\n" +
             "values (#{name}, #{pid}, #{descpt}, #{url}, now(), '0');")
-    void insertMenu(String name, Integer pid, String descpt, String url);
+    void insertMenu(@Param("name") String name,
+                    @Param("pid") Integer pid,
+                    @Param("descpt") String descpt,
+                    @Param("url") String url);
 
     /**
      * 创建菜单和权限的关联关系
@@ -116,7 +119,8 @@ public interface NavigationMapper {
             "           and descpt = #{descpt}\n" +
             "           and url = #{url}" +
             "), 1);")
-    void menuCorrelationWithRole(String name, Integer pid, String descpt, String url);
+    void menuCorrelationWithRole(@Param("name") String name, @Param("pid") Integer pid,
+                                 @Param("descpt") String descpt, @Param("url") String url);
 
     /**
      * 删除菜单数据 实际使用update语句就行了。

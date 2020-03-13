@@ -1,6 +1,7 @@
 package com.example.demo.permission.controller;
 
 
+import com.example.demo.permission.annotation.LoggerOperator;
 import com.example.demo.permission.service.NavigationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +20,7 @@ public class NavigationController {
     @Autowired
     NavigationService navigationService;
 
+    @LoggerOperator(description = "查找菜单")
     @GetMapping("/findMenu")
     @ResponseBody
     @PreAuthorize("hasAnyRole('admin','normal')")
