@@ -1,23 +1,22 @@
 package com.example.demo.permission.service.impl;
 
-import com.example.demo.permission.filter.JWTAuthenticationFilter;
-import com.example.demo.permission.filter.JWTAuthenticationFilterCookies;
-import com.example.demo.permission.filter.JWTLoginFilter;
+import com.example.demo.permission.authentication.DemoAuthenticationFailureHandler;
+import com.example.demo.permission.authentication.DemoAuthenticationSuccessHandler;
+import com.example.demo.permission.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author alin
@@ -31,25 +30,37 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
     @Qualifier("customUserDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private DemoAuthenticationFailureHandler demoAuthenticationFailureHandler;
+    @Autowired
+    private DemoAuthenticationSuccessHandler demoAuthenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .headers().frameOptions().disable()
                 .and()
-                .formLogin().loginPage("/login")
-                .and()
                 .logout()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/logout").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").anonymous()
-                .anyRequest().authenticated()
                 .and()
                 .csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement().maximumSessions(1).expiredUrl("/login");
 
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setDemoAuthenticationFailureHandler(demoAuthenticationFailureHandler);
+        //在UsernamePasswordAuthenticationFilter添加新添加的拦截器
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .successForwardUrl("/index")
+                .defaultSuccessUrl("/index")
+//                .successHandler(demoAuthenticationSuccessHandler)
+//                .failureHandler(demoAuthenticationFailureHandler)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/code/image").permitAll()
+                .anyRequest().authenticated();
 //        http.cors();
 //        http.headers().frameOptions().disable();
 //        http.csrf(AbstractHttpConfigurer::disable);
