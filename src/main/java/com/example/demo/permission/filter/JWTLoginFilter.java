@@ -53,9 +53,9 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000))
                 .signWith(SignatureAlgorithm.HS512, "secret")
                 .compact();
-        Cookie cookie = new Cookie("Authorization", "Bearer//" + token);
+        Cookie cookie = new Cookie("Authorization", "Bearer" + token);
 
         res.addCookie(cookie);
-        res.addHeader("Authorization", "Bearer//" + token);
+        res.addHeader("Authorization", "Bearer" + token);
     }
 }

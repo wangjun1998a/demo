@@ -2,6 +2,8 @@ package com.example.demo.permission.service.impl;
 
 import com.example.demo.permission.authentication.DemoAuthenticationFailureHandler;
 import com.example.demo.permission.authentication.DemoAuthenticationSuccessHandler;
+import com.example.demo.permission.filter.JWTAuthenticationFilter;
+import com.example.demo.permission.filter.JWTLoginFilter;
 import com.example.demo.permission.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +37,11 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
     private DemoAuthenticationFailureHandler demoAuthenticationFailureHandler;
     @Autowired
     private DemoAuthenticationSuccessHandler demoAuthenticationSuccessHandler;
+
+    @Bean
+    public JWTAuthenticationFilter authenticationTokenFilterBean() throws Exception {
+        return new JWTAuthenticationFilter();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,12 +83,14 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
 //        Session过期后跳转界面
 //        http.sessionManagement().invalidSessionUrl("/login");
 //        关闭缓存
-//        http.headers().cacheControl();
-//        http.addFilter(new JWTLoginFilter(authenticationManager()));
+        http.headers().cacheControl();
+        http.addFilter(new JWTLoginFilter(authenticationManager()));
+        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 //        http.addFilter(new JWTAuthenticationFilterCookies(authenticationManager()));
 //        关闭Spring Security本身的Session认证
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //        super.configure(http);
+
 
 
     }
