@@ -55,7 +55,14 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
 
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
         validateCodeFilter.setDemoAuthenticationFailureHandler(demoAuthenticationFailureHandler);
-        //在UsernamePasswordAuthenticationFilter添加新添加的拦截器
+//        关闭缓存
+        http.headers().cacheControl();
+//        添加JWT拦截器
+        http.addFilter(new JWTLoginFilter(authenticationManager()));
+        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//        关闭Spring Security本身的Session认证
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //在UsernamePasswordAuthenticationFilter添加新添加的拦截器，验证码的拦截器
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/login")
@@ -82,15 +89,7 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
 //        http.sessionManagement().maximumSessions(1).expiredUrl("/login");
 //        Session过期后跳转界面
 //        http.sessionManagement().invalidSessionUrl("/login");
-//        关闭缓存
-        http.headers().cacheControl();
-        http.addFilter(new JWTLoginFilter(authenticationManager()));
-        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-//        http.addFilter(new JWTAuthenticationFilterCookies(authenticationManager()));
-//        关闭Spring Security本身的Session认证
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //        super.configure(http);
-
 
 
     }
