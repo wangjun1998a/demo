@@ -3,7 +3,6 @@ package com.example.demo.permission.service.impl;
 import com.example.demo.permission.authentication.DemoAuthenticationFailureHandler;
 import com.example.demo.permission.authentication.DemoAuthenticationSuccessHandler;
 import com.example.demo.permission.filter.JWTAuthenticationFilter;
-import com.example.demo.permission.filter.JWTLoginFilter;
 import com.example.demo.permission.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,26 +43,18 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setDemoAuthenticationFailureHandler(demoAuthenticationFailureHandler);
+//        关闭CSRF跨域 还有iframe的展示问题
         http.cors().and()
                 .headers().frameOptions().disable()
                 .and()
                 .logout()
                 .and()
                 .csrf(AbstractHttpConfigurer::disable);
+//        最大登录限制
         http.sessionManagement().maximumSessions(1).expiredUrl("/login");
-
-        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-        validateCodeFilter.setDemoAuthenticationFailureHandler(demoAuthenticationFailureHandler);
-//        关闭缓存
-        http.headers().cacheControl();
-//        添加JWT拦截器
-        http.addFilter(new JWTLoginFilter(authenticationManager()));
-        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-//        关闭Spring Security本身的Session认证
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //在UsernamePasswordAuthenticationFilter添加新添加的拦截器，验证码的拦截器
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
+        http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .successForwardUrl("/index")
@@ -76,6 +66,14 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
                 .antMatchers("/login").permitAll()
                 .antMatchers("/code/image").permitAll()
                 .anyRequest().authenticated();
+//        关闭缓存
+//        http.headers().cacheControl();
+//        http.addFilter(new JWTLoginFilter(authenticationManager()));
+//        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //在UsernamePasswordAuthenticationFilter添加新添加的拦截器，验证码的拦截器
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+
 //        http.cors();
 //        http.headers().frameOptions().disable();
 //        http.csrf(AbstractHttpConfigurer::disable);

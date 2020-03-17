@@ -30,7 +30,10 @@
         <p>
             <label for="imageCode" class="sr-only">imageCode</label>
             <input type="text" id="imageCode" name="imageCode" class="form-control" placeholder="请输入验证码:" required>
-            <img src="/code/image" alt="not found">
+            <!--            <button type="image" src="/code/image" onclick="javascript:location.reload()"></button>-->
+            <!--            <img src="/code/image" alt="not found">-->
+            <img id="img" src="/code/image">
+            <a href="javascript:location.reload();">换一张？</a>
         </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
     </form>
