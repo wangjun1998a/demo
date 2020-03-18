@@ -1,5 +1,8 @@
 package com.example.demo.permission.bean;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
@@ -8,6 +11,8 @@ import javax.persistence.Enumerated;
  *
  * @author alin
  */
+@Getter
+@Setter
 public class UserInfo {
 
     private long uid;
@@ -24,37 +29,7 @@ public class UserInfo {
         normal
     }
 
-    public long getUid() {
-        return uid;
-    }
-
-    public void setUid(long uid) {
-        this.uid = uid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    private String picture;
 
 
 }

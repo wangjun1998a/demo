@@ -8,6 +8,7 @@
     <script th:src="@{/layui/layui.js}"></script>
     <script th:src="@{/js/head.js}"></script>
     <script src="/js/UploadPicture.js"></script>
+    <script src="/js/index.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -16,11 +17,13 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="/img/defult.gif" class="layui-nav-img"/>
+                    <!--                    <img id="demo1" src="/img/headPortrait/defult.jpeg" class="layui-nav-img"/>-->
+                    <img id="demo1" src="" class="layui-nav-img"/>
+<!--                    <img id="demo1" class="layui-nav-img"/>-->
                     王某
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a id="test1">修改头像</a></dd>
+                    <dd><a id="modifyHeadPortrait">修改头像</a></dd>
                     <dd><a id="modifyPwd">修改密码</a></dd>
                     <!--                    <dd><a href="">安全设置</a></dd>-->
                 </dl>

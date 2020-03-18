@@ -46,7 +46,7 @@ $(function () {
                 element.render('nav');
             } else {
                 layer.alert("权限不足，请联系管理员", function () {
-                    //退出ww
+                    //退出
                     window.location.href = "/logout";
                 });
             }

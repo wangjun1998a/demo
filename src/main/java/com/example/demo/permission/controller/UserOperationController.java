@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author alin
@@ -19,13 +23,6 @@ public class UserOperationController {
     @Autowired
     private UserOperationService userOperationService;
 
-    /**
-     * 修改密码
-     *
-     * @param oldPwd 原密码
-     * @param newPwd 新密码
-     */
-
     @LoggerOperator(description = "修改密码")
     @GetMapping("/modifyPwd")
     @ResponseBody
@@ -33,4 +30,25 @@ public class UserOperationController {
     public String modifyPwd(String oldPwd, String newPwd) {
         return userOperationService.modifyPwd(oldPwd, newPwd);
     }
+
+    @LoggerOperator(description = "修改头像")
+    @GetMapping("/modifyHeadPortrait")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('admin','normal')")
+    public Map modifyHeadPortrait(MultipartFile file, HttpServletRequest request) {
+        Map map = userOperationService.modifyHeadPortrait(file, request);
+        return map;
+
+    }
+
+    @LoggerOperator(description = "获取头像路径")
+    @GetMapping("/getHeadImagePath")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('admin','normal')")
+    public Map<String, Object> getHeadImagePath() {
+        Map<String, Object> map = userOperationService.getHeadImagePath();
+        return map;
+    }
+
+
 }
