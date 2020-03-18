@@ -1,5 +1,6 @@
 package com.example.demo.permission.controller;
 
+import com.example.demo.permission.annotation.LoggerOperator;
 import com.example.demo.permission.bean.ImageCode;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -29,6 +30,7 @@ public class ValidateCodeController {
      */
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
+    @LoggerOperator(description = "创建验证码")
     @GetMapping("/code/image")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ImageCode imageCode = createImageCode(new ServletWebRequest(request));

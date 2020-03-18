@@ -1,5 +1,6 @@
 package com.example.demo.permission.controller;
 
+import com.example.demo.permission.annotation.LoggerOperator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -8,17 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class HomeController {
-
+    @LoggerOperator(description = "登录")
     @GetMapping("/login")
     public String login() {
         return "/login";
     }
-//
-//    @GetMapping("/logout")
-//    public String logout() {
-//        return "/logout";
-//    }
 
+    @LoggerOperator(description = "主菜单")
     @GetMapping({"", "/", "/index"})
     public String index() {
         return "/index";

@@ -26,7 +26,6 @@ public class NavigationController {
     @PreAuthorize("hasAnyRole('admin','normal')")
 
     public Map<String, Object> findMenu() {
-        System.out.println("NavigationController----findMenu");
         return navigationService.findMenu();
     }
 
@@ -45,7 +44,7 @@ public class NavigationController {
         return "200";
     }
 
-
+    @LoggerOperator(description = "删除菜单")
     @GetMapping("/deleteMenu")
     @ResponseBody
     @PreAuthorize("hasAnyRole('admin')")
