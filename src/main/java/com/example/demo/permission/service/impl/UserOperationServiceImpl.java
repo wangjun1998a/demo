@@ -88,7 +88,7 @@ public class UserOperationServiceImpl implements UserOperationService {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 dateStr = simpleDateFormat.format(date);
                 String picPath = "/img/headPortrait/" + userName + "/" + dateStr + "/" + uuid + "." + prefix;
-//                Boolean bool = delAllFile("/Users/alin/privateCode/demo/src/main/resources/static/img/headPortrait");
+                Boolean bool = delAllFile("/Users/alin/privateCode/demo/src/main/resources/static/img/headPortrait" + userName);
                 String filepath = "/Users/alin/privateCode/demo/src/main/resources/static" + picPath;
 //                String filepath = "/Users/alin/privateCode/demo/src/main/resources/static/img/headPortrait/defult." + prefix;
                 File files = new File(filepath);
@@ -154,7 +154,8 @@ public class UserOperationServiceImpl implements UserOperationService {
                 temp.delete();
             }
             if (temp.isDirectory()) {
-                delAllFile(path + "/" + tempList[i]);// 先删除文件夹里面的文件
+                // 先删除文件夹里面的文件
+                delAllFile(path + "/" + tempList[i]);
                 flag = true;
             }
         }
