@@ -11,6 +11,10 @@
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"
           crossorigin="anonymous"/>
+
+    <!--    JS-->
+    <script src="https://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+    <!--    <script src="http://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>-->
 </head>
 
 <body>
@@ -26,18 +30,31 @@
             <label for="password" class="sr-only">Password</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码:" required>
         </p>
-
         <p>
-            <label for="imageCode" class="sr-only">imageCode</label>
-            <input type="text" id="imageCode" name="imageCode" class="form-control" placeholder="请输入验证码:" required>
-            <!--            <button type="image" src="/code/image" onclick="javascript:location.reload()"></button>-->
-            <!--            <img src="/code/image" alt="not found">-->
-            <img id="img" src="/code/image">
-            <a href="javascript:location.reload();">换一张？</a>
+            <div id="login_container"></div>
         </p>
+
+        <!--        <p>-->
+        <!--            <label for="imageCode" class="sr-only">imageCode</label>-->
+        <!--            <input type="text" id="imageCode" name="imageCode" class="form-control" placeholder="请输入验证码:" required>-->
+        <!--            <img id="img" src="/code/image">-->
+        <!--            <a href="javascript:location.reload();">换一张？</a>-->
+        <!--        </p>-->
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
     </form>
 </div>
 </body>
+<script>
+
+    var url = 'http://localhost:90/';
+    var goto = encodeURIComponent('https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=dingoahhgqz9lqjm990aq3&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=' + url);
+    var obj = DDLogin({
+        id: "login_container",//这里需要你在自己的页面定义一个HTML标签并设置id，例如<div id="login_container"></div>或<span id="login_container"></span>
+        goto: goto, //请参考注释里的方式
+        style: "border:none;background-color:none;",
+        width: "365",
+        height: "400"
+    });
+</script>
 
 </html>

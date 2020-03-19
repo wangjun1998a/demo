@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author alin
@@ -65,6 +64,7 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/code/image").permitAll()
+                .antMatchers("/js/*.js").permitAll()
                 .anyRequest().authenticated();
 //        关闭缓存
 //        http.headers().cacheControl();
@@ -72,7 +72,7 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
 //        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 //        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //在UsernamePasswordAuthenticationFilter添加新添加的拦截器，验证码的拦截器
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
 
 //        http.cors();
 //        http.headers().frameOptions().disable();
