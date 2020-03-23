@@ -2,6 +2,10 @@ package com.example.demo.permission.controller;
 
 import com.example.demo.permission.annotation.LoggerOperator;
 import com.example.demo.permission.bean.ImageCode;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,7 @@ import java.util.Random;
 /**
  * @author alin
  */
+@Api(tags = "验证码")
 @RestController
 public class ValidateCodeController {
 
@@ -29,7 +34,11 @@ public class ValidateCodeController {
      * 处理session
      */
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
+    @ApiOperation(value = "createCode - 创建验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", value = "request", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "response", value = "response", required = false, paramType = "query")
+    })
     @LoggerOperator(description = "创建验证码")
     @GetMapping("/code/image")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {

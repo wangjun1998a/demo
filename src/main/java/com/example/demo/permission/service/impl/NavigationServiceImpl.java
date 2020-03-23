@@ -22,19 +22,23 @@ public class NavigationServiceImpl implements NavigationService {
 
     @Override
     public Map<String, Object> findMenu() {
+//        SqlSession sqlSession = null;
+//            NavigationMapper mapper = sqlSession.getMapper(navigationMapper.getClass());
         // 获取用户角色
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = navigationMapper.getUserRole(userName);
+//            String userRole = mapper.getUserRole(userName);
         Map<String, Object> data = new HashMap<>();
         //按照pid获取到根目录进行存储对应的子目录
         List<Navigation> navId = navigationMapper.getNavigationByPid(userRole);
+//            List<Navigation> navId = mapper.getNavigationByPid(userRole);
         for (Navigation nav : navId) {
             List<Navigation> list = navigationMapper.getNavigationListByPid(nav.getId(), userRole);
+//                List<Navigation> list = mapper.getNavigationListByPid(nav.getId(), userRole);
             nav.setChildrens(list);
         }
         data.put("menu", navId);
         return data;
-
     }
 
     @Override

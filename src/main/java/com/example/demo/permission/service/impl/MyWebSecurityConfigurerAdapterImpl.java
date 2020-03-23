@@ -55,7 +55,7 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
         http.sessionManagement().maximumSessions(1).expiredUrl("/login");
         http.formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/login")
+//                .loginProcessingUrl("/login")
                 .successForwardUrl("/index")
                 .defaultSuccessUrl("/index")
 //                .successHandler(demoAuthenticationSuccessHandler)
@@ -63,8 +63,14 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
                 .and()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/authentication").permitAll()
+                .antMatchers("/getCodeMsg").permitAll()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/").permitAll()
                 .antMatchers("/code/image").permitAll()
                 .antMatchers("/js/*.js").permitAll()
+                .antMatchers("/layui/**").permitAll()
+//                .antMatchers("/login.html").permitAll()
                 .anyRequest().authenticated();
 //        关闭缓存
 //        http.headers().cacheControl();

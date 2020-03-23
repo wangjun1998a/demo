@@ -24,7 +24,6 @@ public class NavigationController {
     @GetMapping("/findMenu")
     @ResponseBody
     @PreAuthorize("hasAnyRole('admin','normal')")
-
     public Map<String, Object> findMenu() {
         return navigationService.findMenu();
     }
@@ -35,7 +34,7 @@ public class NavigationController {
     public Map<String, Object> findMenuTable() {
         return navigationService.findMenuTable();
     }
-
+    @LoggerOperator(description = "插入菜单")
     @GetMapping("/insertMenu")
     @ResponseBody
     @PreAuthorize("hasAnyRole('admin')")

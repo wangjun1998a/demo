@@ -1,60 +1,131 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Please sign in</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"
           crossorigin="anonymous"/>
-
-    <!--    JS-->
-    <script src="https://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
-    <!--    <script src="http://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>-->
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <title>Please sign in</title>
+    <script th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" src="https://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+    <style>
+        .allDiv {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            margin: -150px 0 0 -200px;
+            width: 400px;
+            height: 300px;
+        }
+    </style>
 </head>
 
 <body>
-<div class="container">
-    <form class="form-signin" method="post" action="/login">
-        <h2 class="form-signin-heading" align="center">登录系统</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名:" required
-                   autofocus>
-        </p>
-        <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码:" required>
-        </p>
-        <p>
-            <div id="login_container"></div>
-        </p>
+<div class="allDiv">
+    <div class="layui-tab">
 
-        <!--        <p>-->
-        <!--            <label for="imageCode" class="sr-only">imageCode</label>-->
-        <!--            <input type="text" id="imageCode" name="imageCode" class="form-control" placeholder="请输入验证码:" required>-->
-        <!--            <img id="img" src="/code/image">-->
-        <!--            <a href="javascript:location.reload();">换一张？</a>-->
-        <!--        </p>-->
-        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-    </form>
+        <div class="topDiv">
+            <ul class="layui-tab-title" style="align-items: center">
+                <li class="layui-this">密码登录</li>
+                <li>扫码登录</li>
+            </ul>
+        </div>
+        <div class="layui-tab-content" style="height: 300px;">
+            <div class="layui-tab-item layui-show">
+                <div class="container">
+                    <form class="form-signin" method="post" action="/login">
+                        <h2 class="form-signin-heading" align="center">密码登录</h2>
+                        <p>
+                            <label for="username" class="sr-only">Username</label>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名:"
+                                   required
+                                   autofocus>
+                        </p>
+                        <br>
+                        <p>
+                            <label for="password" class="sr-only">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                   placeholder="请输入密码:"
+                                   required>
+                        </p>
+                        <!--        <p>-->
+                        <!--            <label for="imageCode" class="sr-only">imageCode</label>-->
+                        <!--            <input type="text" id="imageCode" name="imageCode" class="form-control" placeholder="请输入验证码:" required>-->
+                        <!--            <img id="img" src="/code/image">-->
+                        <!--            <a href="javascript:location.reload();">换一张？</a>-->
+                        <!--        </p>-->
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+                        <!--        <button type="button"-->
+                        <!--                onclick="window.location.href='https://oapi.dingtalk.com/connect/qrconnect?appid=dingoahhgqz9lqjm990aq3&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=http://localhost:90/'">-->
+                        <!--            钉钉登录-->
+                        <!--        </button>-->
+                    </form>
+                </div>
+
+            </div>
+            <div class="layui-tab-item">
+                <form class="form-signin" method="post" action="/login">
+                    <h2 class="form-signin-heading" align="center">扫码登录</h2>
+                    <!--                    <p>-->
+                    <!--                        <label for="username" class="sr-only">Username</label>-->
+                    <!--                        <input type="text" id="dingdingusername" name="username" class="form-control"-->
+                    <!--                               placeholder="请输入用户名:"-->
+                    <!--                               required-->
+                    <!--                               autofocus hidden>-->
+                    <!--                    </p>-->
+                    <!--                    <br>-->
+                    <!--                    <p>-->
+                    <!--                        <label for="password" class="sr-only">Password</label>-->
+                    <!--                        <input type="password" id="dingdingpassword" name="password" class="form-control"-->
+                    <!--                               placeholder="请输入密码:"-->
+                    <!--                               required hidden>-->
+                    <!--                    </p>-->
+                    <!--                    <button id="dingdingsubmit-btn" class="btn btn-lg btn-primary btn-block" type="submit" hidden>登录-->
+                    <!--                    </button>-->
+
+                    <p>
+                    <div id="login_container"></div>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
-<script>
-
-    var url = 'http://localhost:90/';
+<script type="text/javascript">
+    // 钉钉扫码接口
+    var url = 'http://localhost:90/authentication';
     var goto = encodeURIComponent('https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=dingoahhgqz9lqjm990aq3&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=' + url);
     var obj = DDLogin({
         id: "login_container",//这里需要你在自己的页面定义一个HTML标签并设置id，例如<div id="login_container"></div>或<span id="login_container"></span>
         goto: goto, //请参考注释里的方式
         style: "border:none;background-color:none;",
-        width: "365",
-        height: "400"
+        width: "300",
+        height: "300"
     });
+    layui.use('element', function () {
+        var $ = layui.jquery
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+    });
+    var handleMessage = function (event) {
+        var origin = event.origin;
+        console.log("origin", event.origin);
+        if (origin == "https://login.dingtalk.com") { //判断是否来自ddLogin扫码事件。
+            var loginTmpCode = event.data; //拿到loginTmpCode后就可以在这里构造跳转链接进行跳转了
+            console.log("loginTmpCode", loginTmpCode);
+            window.location.href = 'https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=dingoahhgqz9lqjm990aq3&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=REDIRECT_URI&loginTmpCode=' + loginTmpCode;
+        }
+    };
+    if (typeof window.addEventListener != 'undefined') {
+        window.addEventListener('message', handleMessage, false);
+    } else if (typeof window.attachEvent != 'undefined') {
+        window.attachEvent('onmessage', handleMessage);
+    }
 </script>
-
 </html>
