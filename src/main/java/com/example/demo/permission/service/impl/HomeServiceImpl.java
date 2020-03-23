@@ -7,7 +7,7 @@ import com.example.demo.permission.repository.UserInfoRepository;
 import com.example.demo.permission.service.HomeService;
 import com.taobao.api.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,14 @@ public class HomeServiceImpl implements HomeService {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    public PasswordEncoder myPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Value("${dingTalk.accessKey}")
+    private String accessKey;
+
+    @Value("${dingTalk.accessSecret}")
+    private String accessSecret;
 
     @Override
     public OapiSnsGetuserinfoBycodeResponse getUserByCode(String code, String state) {
@@ -30,11 +35,12 @@ public class HomeServiceImpl implements HomeService {
         OapiSnsGetuserinfoBycodeRequest req = new OapiSnsGetuserinfoBycodeRequest();
         req.setTmpAuthCode(code);
         try {
-            OapiSnsGetuserinfoBycodeResponse response = client.execute(req, "dingoahhgqz9lqjm990aq3", "Y3ubnSv9Y_RmYCIgeu_ykS1BzL3TO9CaHVTRWJDnZOgWudc0mks9ioVyM9DaYJ6D");
+            OapiSnsGetuserinfoBycodeResponse response = client.execute(req, accessKey, accessSecret);
             String openid = response.getUserInfo().getOpenid();
+            String displayName = response.getUserInfo().getNick();
             String s = searchIfExists(openid);
             if ("0".equals(s)) {
-                createUser(openid);
+                createUser(openid, displayName);
                 String newUserId = searchNewUser(openid);
                 if (newUserId != null) {
                     insertUserRole(newUserId);
@@ -55,8 +61,8 @@ public class HomeServiceImpl implements HomeService {
         return userInfoRepository.searchNewUser(openid);
     }
 
-    public void createUser(String code) {
-        userInfoRepository.createUser(code, myPasswordEncoder().encode(code));
+    public void createUser(String code, String displayName) {
+        userInfoRepository.createUser(code, passwordEncoder.encode(code), displayName);
     }
 
     public String searchIfExists(String code) {

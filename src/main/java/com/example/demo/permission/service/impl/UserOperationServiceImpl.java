@@ -4,7 +4,6 @@ import com.example.demo.permission.repository.UserOperationRepository;
 import com.example.demo.permission.service.UserOperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,9 +28,8 @@ public class UserOperationServiceImpl implements UserOperationService {
     @Autowired
     private UserOperationRepository userOperationRepository;
 
-    public PasswordEncoder myPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 修改密码
@@ -46,9 +44,9 @@ public class UserOperationServiceImpl implements UserOperationService {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 //        从数据库中获取加密的密码。
         String passwordInDataBase = userOperationRepository.getPasswdWithUserName(userName);
-        boolean matches = myPasswordEncoder().matches(oldPwd, passwordInDataBase);
+        boolean matches = passwordEncoder.matches(oldPwd, passwordInDataBase);
         if (matches) {
-            userOperationRepository.modifyPwd(userName, oldPwd, myPasswordEncoder().encode(newPwd));
+            userOperationRepository.modifyPwd(userName, oldPwd, passwordEncoder.encode(newPwd));
             return "200";
         }
         return "500";
@@ -59,8 +57,13 @@ public class UserOperationServiceImpl implements UserOperationService {
         Map<String, Object> map = new HashMap<>();
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         String imgPath = userOperationRepository.getHeadImagePath(userName);
+        String displayName = userOperationRepository.getShowUserName(userName);
+        if (imgPath == null || "".equals(imgPath)) {
+            imgPath = "/img/headPortrait/defult.jpg";
+        }
         map.put("code", 0);
-        map.put("data", imgPath);
+        map.put("img", imgPath);
+        map.put("username", displayName);
         return map;
     }
 

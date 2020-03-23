@@ -17,15 +17,12 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <!--                    <img id="demo1" src="/img/headPortrait/defult.jpeg" class="layui-nav-img"/>-->
                     <img id="demo1" src="" class="layui-nav-img"/>
-                    <!--                    <img id="demo1" class="layui-nav-img"/>-->
-                    王某
+                    <span id="displayName"></span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a id="modifyHeadPortrait">修改头像</a></dd>
                     <dd><a id="modifyPwd">修改密码</a></dd>
-                    <!--                    <dd><a href="">安全设置</a></dd>-->
                 </dl>
             </li>
             <li class="layui-nav-item"><a th:href="@{/logout}" method="post" type="submit">退出</a></li>

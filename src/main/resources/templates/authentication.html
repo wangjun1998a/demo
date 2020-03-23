@@ -36,27 +36,10 @@
 </body>
 
 <script>
-    // const that = this;
     var ddCode = getRequestFromUrl("code");
     var ddState = getRequestFromUrl("state");
     console.log("ddCode", ddCode);
     console.log("ddState", ddState);
-    //如果没有用户直接创建
-    // $.ajax({
-    //     url: "/createUser",
-    //     dataType: "json",
-    //     data: {
-    //         code: ddCode,
-    //         state: ddState
-    //     },
-    //     success: function (msg) {
-    //         if (msg == '200') {
-    //             console.log("msg:", '新用户创建成功');
-    //         } else {
-    //             console.log("msg:", '用户创建失败或用户已存在');
-    //         }
-    //     }
-    // });
     $.ajax({
         url: "/getCodeMsg",
         dataType: "json",

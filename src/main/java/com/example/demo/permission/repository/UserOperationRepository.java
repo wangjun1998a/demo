@@ -47,4 +47,13 @@ public interface UserOperationRepository {
      */
     @Select("select picture from `spring-security`.user_info ui where ui.username = #{userName};")
     String getHeadImagePath(@Param("userName") String userName);
+
+    /**
+     * 获取显示名称
+     *
+     * @param userName 用户名
+     * @return 显示名称
+     */
+    @Select("select displayname from `spring-security`.user_info ui where ui.username = #{userName};")
+    String getShowUserName(@Param("userName") String userName);
 }

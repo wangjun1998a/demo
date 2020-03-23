@@ -29,15 +29,6 @@ public class HomeController {
         return "/authentication";
     }
 
-//    @LoggerOperator(description = "创建用户")
-//    @GetMapping({"/createUser"})
-//    @ResponseBody
-//    public String createUser(String code, String state) {
-//        String result = "500";
-//
-//        return result;
-//    }
-
     @LoggerOperator(description = "获取扫码验证信息")
     @GetMapping({"/getCodeMsg"})
     @ResponseBody
