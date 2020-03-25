@@ -65,8 +65,6 @@ public class MyWebSecurityConfigurerAdapterImpl extends WebSecurityConfigurerAda
                 .antMatchers("/login").permitAll()
                 .antMatchers("/authentication").permitAll()
                 .antMatchers("/getCodeMsg").permitAll()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/").permitAll()
                 .antMatchers("/code/image").permitAll()
                 .antMatchers("/js/*.js").permitAll()
                 .antMatchers("/layui/**").permitAll()

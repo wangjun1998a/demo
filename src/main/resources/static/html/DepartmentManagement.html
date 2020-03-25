@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>人员信息</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <script src="/layui/layui.js"></script>
+    <script src="/js/jquery/jquery-3.4.1.min.js"></script>
+    <!--    自定义JS-->
+    <script src="/js/DepartmentManagement.js"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <!-- 左树 -->
+        <div class="layui-col-sm12 layui-col-md4 layui-col-lg3">
+            <div class="layui-card">
+                <div class="layui-card-body mini-bar" id="ltTree">
+                </div>
+            </div>
+        </div>
+        <!-- 右表 -->
+        <div class="layui-col-sm12 layui-col-md8 layui-col-lg9">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="layui-form toolbar">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label w-auto">搜索：</label>
+                                <div class="layui-input-inline mr0">
+                                    <input id="edtSearch" class="layui-input" type="text" placeholder="部门名称"/>
+                                </div>
+                            </div>
+                            <!--                            <div class="layui-inline">-->
+                            <!--                                <button class="layui-btn icon-btn" id="btnSearchByCode">-->
+                            <!--                                    <i class="layui-icon">&#xe615;</i>字典编码搜索-->
+                            <!--                                </button>-->
+                            <!--                                <button class="layui-btn icon-btn" id="btnSearchByName">-->
+                            <!--                                    <i class="layui-icon">&#xe615;</i>字典值搜索-->
+                            <!--                                </button>-->
+                            <!--                            </div>-->
+                            <div class="layui-inline">
+                                <button id="btnSearch" class="layui-btn icon-btn">
+                                    <i class="layui-icon">&#xe615;</i>搜索
+                                </button>
+                                <button id="btnAdd" class="layui-btn icon-btn">
+                                    <i class="layui-icon">&#xe654;</i>新增
+                                </button>
+                                <button id="btnModify" class="layui-btn icon-btn">
+                                    <i class="layui-icon">&#xe654;</i>修改
+                                </button>
+                                <button id="btnDel" class="layui-btn layui-btn-danger icon-btn">
+                                    <i class="layui-icon">&#xe640;</i>删除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="layui-table" id="rtTable" lay-filter="rtTable"></table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
