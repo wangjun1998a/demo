@@ -1,19 +1,72 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Spring Security</title>
+    <script src="/js/jquery/jquery-3.4.1.min.js"></script>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet"/>
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/head.js}"></script>
+    <script src="/js/UploadPicture.js"></script>
+    <script src="/js/index.js"></script>
 </head>
-<body>
-<h1>Spring Security Demo Project</h1>
-<p>点击 <a th:href="@{/hello}">这里</a>测试一下首页</p>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">AlinNum</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <!--                    <img id="demo1" src="/img/headPortrait/defult.jpeg" class="layui-nav-img"/>-->
+                    <img id="demo1" src="" class="layui-nav-img"/>
+                    <!--                    <img id="demo1" class="layui-nav-img"/>-->
+                    王某
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a id="modifyHeadPortrait">修改头像</a></dd>
+                    <dd><a id="modifyPwd">修改密码</a></dd>
+                    <!--                    <dd><a href="">安全设置</a></dd>-->
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a th:href="@{/logout}" method="post" type="submit">退出</a></li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            </ul>
+        </div>
+    </div>
 
-<p><a th:href="@{/hello/admin}">admin入口</a></p>
-<p><a th:href="@{/hello/user}">user入口</a></p>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="退出登录"/>
-</form>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <iframe class="lay-admin-iframe iframe_voice" width="100%" height="100%" frameborder="0" name="centerFrame"
+                scrolling="no"></iframe>
+        <!--        <div style="padding: 15px;">内容主体区域</div>-->
+    </div>
 
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
 
+    });
+    $('#modifyPwd').click(function () {
+        layer.open({
+            id: 'pswForm',
+            type: 2,
+            title: '修改密码',
+            area: ['400px', '300px'],
+            shadeClose: false, //点击遮罩关闭
+            content: '/html/ModifyPassWord.html'
+        });
+    });
+</script>
 </body>
 </html>
