@@ -28,4 +28,12 @@ public class DepartmentController {
     public Map<String, Object> getDept() {
         return departmentService.getDept();
     }
+
+    @LoggerOperator(description = "获取部门的表格数据")
+    @GetMapping({"/getTableDept"})
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('admin','normal')")
+    public String getTableDept(String dingTalkId) {
+        return departmentService.getTableDept(dingTalkId);
+    }
 }

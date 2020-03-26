@@ -9,61 +9,52 @@
     <script src="/js/jquery/jquery-3.4.1.min.js"></script>
     <!--    自定义JS-->
     <script src="/js/DepartmentManagement.js"></script>
+
+    <style media="screen">
+        .tree-txt-active {
+            background-color: rgba(201, 201, 201, 0.58);
+            /*color :red;*/
+        }
+    </style>
 </head>
 <body>
+
+
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <!-- 左树 -->
         <div class="layui-col-sm12 layui-col-md4 layui-col-lg3">
             <div class="layui-card">
-                <div class="layui-card-body mini-bar" id="ltTree">
-                </div>
+                <div class="layui-card-body mini-bar" id="ltTree"></div>
             </div>
         </div>
         <!-- 右表 -->
         <div class="layui-col-sm12 layui-col-md8 layui-col-lg9">
             <div class="layui-card">
-                <div class="layui-card-body">
-                    <div class="layui-form toolbar">
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label w-auto">搜索：</label>
-                                <div class="layui-input-inline mr0">
-                                    <input id="edtSearch" class="layui-input" type="text" placeholder="部门名称"/>
-                                </div>
-                            </div>
-                            <!--                            <div class="layui-inline">-->
-                            <!--                                <button class="layui-btn icon-btn" id="btnSearchByCode">-->
-                            <!--                                    <i class="layui-icon">&#xe615;</i>字典编码搜索-->
-                            <!--                                </button>-->
-                            <!--                                <button class="layui-btn icon-btn" id="btnSearchByName">-->
-                            <!--                                    <i class="layui-icon">&#xe615;</i>字典值搜索-->
-                            <!--                                </button>-->
-                            <!--                            </div>-->
-                            <div class="layui-inline">
-                                <button id="btnSearch" class="layui-btn icon-btn">
-                                    <i class="layui-icon">&#xe615;</i>搜索
-                                </button>
-                                <button id="btnAdd" class="layui-btn icon-btn">
-                                    <i class="layui-icon">&#xe654;</i>新增
-                                </button>
-                                <button id="btnModify" class="layui-btn icon-btn">
-                                    <i class="layui-icon">&#xe654;</i>修改
-                                </button>
-                                <button id="btnDel" class="layui-btn layui-btn-danger icon-btn">
-                                    <i class="layui-icon">&#xe640;</i>删除
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <table class="layui-table" id="rtTable" lay-filter="rtTable"></table>
-
-                </div>
+                <table class="layui-table" id="rtTable" lay-filter="rtTable"></table>
             </div>
         </div>
 
     </div>
 </div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input id="name" class="layui-input" type="text" placeholder="部门名称"/>
+            </div>
+            <div class="layui-inline">
+                <button id="btnSearch" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button id="btnAdd" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+                <!--                                <button id="btnExp" class="layui-btn icon-btn"><i class="layui-icon">&#xe67d;</i>导出</button>-->
+            </div>
+        </div>
+    </div>
+</script>
 
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 </body>
 </html>

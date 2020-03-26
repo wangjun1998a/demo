@@ -40,10 +40,25 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Map<String, Object> getDept() {
         String dingTalkAccessToken = dingTalkUtil.getDingTalkAccessToken(appKey, appSecret);
-        OapiDepartmentListResponse dingTalkDeptList = dingTalkUtil.getDingTalkDeptList(dingTalkAccessToken);
+//        因为需要获取根部门 这里的id不能传入值
+        OapiDepartmentListResponse dingTalkDeptList = dingTalkUtil.getDingTalkDeptListDepartmentListResponse(dingTalkAccessToken, "");
         List<OapiDepartmentListResponse.Department> department = dingTalkDeptList.getDepartment();
         Map<String, Object> returnData = getReturnData(department);
         return returnData;
+    }
+
+    /**
+     * 获取部门的表格数据
+     *
+     * @return Map
+     */
+    @Override
+    public String getTableDept(String dingTalkId) {
+        String dingTalkAccessToken = dingTalkUtil.getDingTalkAccessToken(appKey, appSecret);
+        OapiDepartmentListResponse dingTalkDeptList = dingTalkUtil.getDingTalkDeptListDepartmentListResponse(dingTalkAccessToken, dingTalkId);
+        return dingTalkDeptList.getBody()
+                .replaceAll("errcode", "code")
+                .replaceAll("department", "data");
     }
 
     /**
@@ -65,6 +80,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 String name = department.get(i).getName();
                 data.put("title", name);
                 data.put("id", id);
+                data.put("spread", "true");
 //              删除已经保存的记录
                 department.remove(i);
                 i -= 1;
@@ -74,8 +90,6 @@ public class DepartmentServiceImpl implements DepartmentService {
                 allData.put("data", list);
             }
         }
-
-
         return allData;
     }
 
@@ -89,6 +103,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 String name = department.get(i).getName();
                 data.put("title", name);
                 data.put("id", id);
+                data.put("spread", "true");
 //              删除已经保存的记录
                 department.remove(i);
                 i = 0;

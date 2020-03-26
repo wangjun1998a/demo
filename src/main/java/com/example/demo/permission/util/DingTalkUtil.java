@@ -41,11 +41,12 @@ public class DingTalkUtil {
      *
      * @return
      */
-    public OapiDepartmentListResponse getDingTalkDeptList(String dingTalkAccessToken) {
+    public OapiDepartmentListResponse getDingTalkDeptListDepartmentListResponse(String dingTalkAccessToken, String id) {
         try {
             DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/department/list");
             OapiDepartmentListRequest req = new OapiDepartmentListRequest();
             req.setFetchChild(true);
+            req.setId(id);
             req.setHttpMethod("GET");
             OapiDepartmentListResponse rsp = client.execute(req, dingTalkAccessToken);
             return rsp;
@@ -54,4 +55,5 @@ public class DingTalkUtil {
         }
         return null;
     }
+
 }
