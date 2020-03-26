@@ -36,4 +36,28 @@ public class DepartmentController {
     public String getTableDept(String dingTalkId) {
         return departmentService.getTableDept(dingTalkId);
     }
+
+    @LoggerOperator(description = "dingTalk创建部门")
+    @GetMapping("/createDept")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('admin')")
+    public String createDept(String name, String parentId, String createDeptGroup) {
+        return departmentService.createDept(name, parentId, createDeptGroup);
+    }
+
+    @LoggerOperator(description = "dingTalk删除部门")
+    @GetMapping("/deleteDept")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('admin')")
+    public String deleteDept(String id) {
+        return departmentService.deleteDept(id);
+    }
+
+    @LoggerOperator(description = "dingTalk更新部门")
+    @GetMapping("/updateDept")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('admin')")
+    public String updateDept(String deptId, String deptName, String createDeptGroup, String autoJoinGroup) {
+        return departmentService.updateDept(deptId , deptName , createDeptGroup , autoJoinGroup);
+    }
 }

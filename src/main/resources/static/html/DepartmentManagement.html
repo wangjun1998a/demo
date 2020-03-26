@@ -37,6 +37,43 @@
 
     </div>
 </div>
+
+<form id="editForm" hidden="hidden" class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    <div class="layui-form" lay-filter="useradmin" id="useradmin">
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="deptName" required lay-verify="required" placeholder="请输入部门名称"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否创建企业群</label>
+            <div class="layui-input-block">
+                <select name="createGroupSel" lay-filter="createGroup">
+                    <option value="false">否</option>
+                    <option value="true">是</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新人加入部门自动入群</label>
+            <div class="layui-input-block">
+                <select name="autoJoinGroupSel" lay-filter="autoJoinGroup">
+                    <option value="true">是</option>
+                    <option value="false">否</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="subButton">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </div>
+</form>
+
 <script type="text/html" id="toolbarDemo">
     <div class="layui-form toolbar">
         <div class="layui-form-item">

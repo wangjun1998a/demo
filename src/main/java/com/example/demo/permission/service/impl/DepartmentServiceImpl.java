@@ -1,6 +1,9 @@
 package com.example.demo.permission.service.impl;
 
+import com.dingtalk.api.response.OapiDepartmentDeleteResponse;
+import com.dingtalk.api.response.OapiDepartmentListIdsResponse;
 import com.dingtalk.api.response.OapiDepartmentListResponse;
+import com.dingtalk.api.response.OapiDepartmentUpdateResponse;
 import com.example.demo.permission.service.DepartmentService;
 import com.example.demo.permission.util.DingTalkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +62,54 @@ public class DepartmentServiceImpl implements DepartmentService {
         return dingTalkDeptList.getBody()
                 .replaceAll("errcode", "code")
                 .replaceAll("department", "data");
+    }
+
+    /**
+     * 创建部门
+     *
+     * @param name            部门名称
+     * @param parentId        父ID
+     * @param createDeptGroup 是否创建一个关联此部门的企业群
+     * @return code
+     */
+    @Override
+    public String createDept(String name, String parentId, String createDeptGroup) {
+        String dingTalkAccessToken = dingTalkUtil.getDingTalkAccessToken(appKey, appSecret);
+
+        OapiDepartmentListIdsResponse oapiDepartmentListIdsResponse = dingTalkUtil.searchListIds(dingTalkAccessToken, parentId);
+//        设置排序
+        String order = String.valueOf(oapiDepartmentListIdsResponse.getSubDeptIdList().size() + 1);
+        return dingTalkUtil.createDept(dingTalkAccessToken, name, parentId, order, createDeptGroup);
+    }
+
+    /**
+     * 删除部门
+     *
+     * @param id id
+     * @return msg
+     */
+    @Override
+    public String deleteDept(String id) {
+        String dingTalkAccessToken = dingTalkUtil.getDingTalkAccessToken(appKey, appSecret);
+        OapiDepartmentDeleteResponse oapiDepartmentDeleteResponse = dingTalkUtil.deleteDept(dingTalkAccessToken, id);
+        return oapiDepartmentDeleteResponse.getBody();
+    }
+
+    /**
+     * 更新部门
+     *
+     * @param deptId          id
+     * @param deptName        名称
+     * @param createDeptGroup 是否创建部门群
+     * @param autoJoinGroup   用户是否自动加入
+     * @return rsp
+     */
+    @Override
+    public String updateDept(String deptId, String deptName, String createDeptGroup, String autoJoinGroup) {
+
+        String dingTalkAccessToken = dingTalkUtil.getDingTalkAccessToken(appKey, appSecret);
+        OapiDepartmentUpdateResponse oapiDepartmentUpdateResponse = dingTalkUtil.updateDept(dingTalkAccessToken, deptId, deptName, createDeptGroup, autoJoinGroup);
+        return oapiDepartmentUpdateResponse.getBody();
     }
 
     /**

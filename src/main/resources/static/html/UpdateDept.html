@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<head>
+    <meta charset="utf-8">
+    <title>更新部门</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <script src="/js/jquery/jquery-3.4.1.min.js"></script>
+    <script src="/layui/layui.js"></script>
+
+    <script>
+        var getRequestFromUrl = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+    </script>
+</head>
+<body>
+
+<form id="editForm" class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    <div class="layui-form" lay-filter="useradmin" id="useradmin">
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="deptName" placeholder="不写默认原本名称"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否创建企业群</label>
+            <div class="layui-input-block">
+                <select name="createGroupSel" lay-filter="createGroup">
+                    <option value="false">否</option>
+                    <option value="true">是</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新人加入部门自动入群</label>
+            <div class="layui-input-block">
+                <select name="autoJoinGroupSel" lay-filter="autoJoinGroup">
+                    <option value="false">否</option>
+                    <option value="true">是</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="subButton">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    // 获取URL的参数
+    var deptId = getRequestFromUrl("deptId");
+    var deptName = getQueryString("deptName");
+
+    layui.use(['form', 'layer'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        var layer = layui.layer;
+        $('#deptName').val(deptName);
+        //监听提交
+        form.on('submit(subButton)', function (data) {
+            if (data.field.deptName != null || data.field.deptName == "") {
+                deptName = data.field.deptName;
+            }
+            $.ajax({
+                url: "/dept/updateDept",
+                dataType: "json",
+                data: {
+                    deptId: deptId,
+                    deptName: deptName,
+                    createDeptGroup: data.field.createGroupSel,
+                    autoJoinGroup: data.field.autoJoinGroupSel
+                },
+                success: function (msg) {
+                    if (msg.errcode == "0") {
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        layer.msg('更新成功', {time: 1800, icon: 6}, function () {
+                            parent.layer.close(index);
+                            parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                        });
+                    } else {
+                        layer.msg(msg.errmsg, {icon: 5});
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
