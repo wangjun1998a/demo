@@ -7,6 +7,9 @@ import com.dingtalk.api.response.*;
 import com.taobao.api.ApiException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author alin
  */
@@ -130,7 +133,7 @@ public class DingTalkUtil {
      * @param deptName            部门名称
      * @param createDeptGroup     创建群？
      * @param autoJoinGroup       用户自动加入
-     * @return
+     * @return msg
      */
     public OapiDepartmentUpdateResponse updateDept(String dingTalkAccessToken, String deptId, String deptName, String createDeptGroup, String autoJoinGroup) {
         try {
@@ -147,5 +150,88 @@ public class DingTalkUtil {
         }
         return null;
 
+    }
+
+    /**
+     * 获取部门用户
+     *
+     * @param dingTalkAccessToken accessToken
+     * @param deptId              部门ID
+     * @return msg
+     */
+    public OapiUserSimplelistResponse simpleList(String dingTalkAccessToken, String deptId) {
+        try {
+            DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/simplelist");
+            OapiUserSimplelistRequest req = new OapiUserSimplelistRequest();
+            req.setDepartmentId(Long.valueOf(deptId));
+            req.setHttpMethod("GET");
+            OapiUserSimplelistResponse rsp = client.execute(req, dingTalkAccessToken);
+            return rsp;
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 创建用户
+     *
+     * @param dingTalkAccessToken accessToken
+     * @param deptId              部门id
+     * @param name                name
+     * @param mobile              手机号
+     * @return msg
+     */
+    public OapiUserCreateResponse createUser(String dingTalkAccessToken, String deptId, String name, String mobile) {
+        try {
+            DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/create");
+            OapiUserCreateRequest req = new OapiUserCreateRequest();
+            req.setMobile(mobile);
+            req.setName(name);
+            // 需要用字符串， "[100,200]" 这种格式
+            List<Long> departments = new ArrayList<Long>();
+            departments.add(Long.valueOf(deptId));
+            req.setDepartment(String.valueOf(departments));
+            OapiUserCreateResponse rsp = client.execute(req, dingTalkAccessToken);
+            return rsp;
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param dingTalkAccessToken accessToken
+     * @param userId              用户ID
+     * @return msg
+     */
+    public OapiUserDeleteResponse deleteUser(String dingTalkAccessToken, String userId) {
+        try {
+            DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/delete");
+            OapiUserDeleteRequest req = new OapiUserDeleteRequest();
+            req.setUserid(userId);
+            req.setHttpMethod("GET");
+            OapiUserDeleteResponse rsp = client.execute(req, dingTalkAccessToken);
+            return rsp;
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public OapiUserUpdateResponse updateUser(String dingTalkAccessToken, String userId, String userName) {
+        try {
+            DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/update");
+            OapiUserUpdateRequest req = new OapiUserUpdateRequest();
+            req.setUserid(userId);
+            req.setName(userName);
+            OapiUserUpdateResponse rsp = client.execute(req, dingTalkAccessToken);
+            return rsp;
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
