@@ -122,69 +122,8 @@ layui.use(['layer', 'form', 'table', 'util', 'tree'], function () {
 
                 }
             });
-            // var deleteData = new Array();
-            // deleteData.push(data.dictId);
-            // deleteDictionary(deleteData);
         }
     });
-
-    // 批量删除
-    // $('#btnDel').click(function () {
-    //     var checkRows = table.checkStatus('rtTable');
-    //     if (checkRows.data.length == 0) {
-    //         layer.msg('请选择要删除的数据', {icon: 2});
-    //     } else {
-    //         var deletedata = [];
-    //         for (var i = 0; i < checkRows.data.length; i++) {
-    //             deletedata.push(checkRows.data[i].dictId);
-    //         }
-    //         deleteDictionary(deletedata);
-    //     }
-    // });
-
-    // 搜索按钮点击事件
-    // $('#btnSearchByCode').click(function () {
-    //     var value = $('#edtSearch').val();
-    //     // ins1(dingTalkId);
-    // });
-    // 搜索按钮点击事件
-    // $('#btnSearchByName').click(function () {
-    //     var value = $('#edtSearch').val();
-    //     ins1("", "dict_name", value);
-    // });
-
-
-    // 显示表单弹窗
-    // function showEditModel(data) {
-    //     admin.putTempData('dictionaryEditData', data);
-    //     admin.putTempData('formOk', false);
-    //     top.layui.admin.open({
-    //         type: 2,
-    //         title: data ? '修改字典' : '添加字典',
-    //         area: ['480px', '492px'],
-    //         content: '/dictionary/editForm',
-    //         end: function () {
-    //             admin.getTempData('formOk') && table.reload('rtTable') // 成功刷新表格
-    //             if (admin.getTempData('formOk')) {
-    //                 dictTree.menubarMethod().refreshTree();
-    //             }
-    //
-    //         }
-    //     });
-    // }
-
-
-    // $(document).ready(function () {
-    //     var click = $('#btnAdd').click(function () {
-    //         var aa = 1;
-    //         debugger;
-    //         var checked = selTree.id;
-    //         // var checked = dtree.getChecked("ltTree");
-    //         // alert(checked);
-    //         debugger;
-    //         // Dept.search();
-    //     });
-    // });
 
     $(function () {
         //首次加载默认
