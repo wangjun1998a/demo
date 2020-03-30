@@ -1,9 +1,11 @@
 package com.example.demo.permission.bean;
 
+import java.io.Serializable;
+
 /**
  * @author alin
  */
-public class MenuTable {
+public class MenuTable implements Serializable {
 
     /**
      * id : 1

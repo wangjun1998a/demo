@@ -3,7 +3,7 @@ package com.example.demo.permission.repository;
 import com.example.demo.permission.bean.MenuTable;
 import com.example.demo.permission.bean.Navigation;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,7 +11,9 @@ import java.util.List;
  * @author alin
  */
 @Mapper
-public interface NavigationMapper {
+@Repository
+@CacheNamespace
+public interface NavigationRepository{
 
     /**
      * 获取数据表
@@ -21,16 +23,15 @@ public interface NavigationMapper {
     @Select("select *\n" +
             "from `spring-security`.menu m\n" +
             "where m.del_flag = '0'\n" +
-            "  " +
-            "and del_flag = '0'" +
-            ";")
+            "  and del_flag = '0';")
     List<MenuTable> getMenuTable();
 
     /**
      * 根据父PID获取子级数据
      *
-     * @param pid 父pid
-     * @return Navigation
+     * @param pid      pid
+     * @param userRole userRole
+     * @return msg
      */
     @Select("select m.id                     as id,\n" +
             "       m.name                   as name,\n" +
@@ -54,7 +55,8 @@ public interface NavigationMapper {
     /**
      * 获取pid为0的头标识
      *
-     * @return Navigation
+     * @param userRole userRole
+     * @return msg
      */
     @Select("select m.id                     as id,\n" +
             "       m.name                   as name,\n" +
@@ -128,7 +130,7 @@ public interface NavigationMapper {
      * @param id 菜单ID
      */
     @Update("update `spring-security`.menu\n" +
-            "set menu.del_flag = 1\n" +
-            "where id = #{id};\n")
+            "set del_flag = 1\n" +
+            "where id = #{id};")
     void deleteMenu(@Param("id") String id);
 }

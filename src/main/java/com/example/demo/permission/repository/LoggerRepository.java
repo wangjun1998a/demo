@@ -2,8 +2,7 @@ package com.example.demo.permission.repository;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.Date;
+import org.springframework.stereotype.Repository;
 
 /**
  * 日志存取位置
@@ -11,6 +10,7 @@ import java.util.Date;
  * @author alin
  */
 @Mapper
+@Repository
 public interface LoggerRepository {
     /**
      * 日志插入的具体实现

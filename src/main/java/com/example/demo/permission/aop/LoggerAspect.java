@@ -1,7 +1,7 @@
 package com.example.demo.permission.aop;
 
 import com.example.demo.permission.annotation.LoggerOperator;
-import com.example.demo.permission.repository.NavigationMapper;
+import com.example.demo.permission.repository.NavigationRepository;
 import com.example.demo.permission.service.LoggerService;
 import com.example.demo.permission.util.IpUtil;
 import org.aspectj.lang.JoinPoint;
@@ -30,7 +30,7 @@ public class LoggerAspect {
     private LoggerService loggerService;
 
     @Autowired
-    private NavigationMapper navigationMapper;
+    private NavigationRepository navigationRepository;
     // 定义切点 @Pointcut。是面前注解类的地址。
 
     @Pointcut("@annotation(com.example.demo.permission.annotation.LoggerOperator)")
@@ -42,7 +42,7 @@ public class LoggerAspect {
         try {
 //            获取用户名
             String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-            String userRole = navigationMapper.getUserRole(userName);
+            String userRole = navigationRepository.getUserRole(userName);
 
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String ip = IpUtil.getIpAddress(request);

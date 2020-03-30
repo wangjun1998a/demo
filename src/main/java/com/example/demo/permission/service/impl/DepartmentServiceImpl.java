@@ -4,6 +4,7 @@ import com.dingtalk.api.response.OapiDepartmentDeleteResponse;
 import com.dingtalk.api.response.OapiDepartmentListIdsResponse;
 import com.dingtalk.api.response.OapiDepartmentListResponse;
 import com.dingtalk.api.response.OapiDepartmentUpdateResponse;
+import com.example.demo.permission.bean.Department;
 import com.example.demo.permission.service.DepartmentService;
 import com.example.demo.permission.util.DingTalkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +45,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Map<String, Object> getDept() {
         String dingTalkAccessToken = dingTalkUtil.getDingTalkAccessToken(appKey, appSecret);
 //        因为需要获取根部门 这里的id不能传入值
-        OapiDepartmentListResponse dingTalkDeptList = dingTalkUtil.getDingTalkDeptListDepartmentListResponse(dingTalkAccessToken, "");
-        List<OapiDepartmentListResponse.Department> department = dingTalkDeptList.getDepartment();
-        Map<String, Object> returnData = getReturnData(department);
-        return returnData;
+        OapiDepartmentListResponse oapiDepartmentListResponse = dingTalkUtil.getDingTalkDeptListDepartmentListResponse(dingTalkAccessToken, "");
+        List<OapiDepartmentListResponse.Department> departmentList = oapiDepartmentListResponse.getDepartment();
+        return getReturnData(departmentList);
     }
 
     /**
@@ -115,60 +115,50 @@ public class DepartmentServiceImpl implements DepartmentService {
     /**
      * 获取仿佛的Json
      *
-     * @param department dingTalk返回的值
+     * @param departmentList dingTalk返回的值
      * @return
      */
-    private Map<String, Object> getReturnData(List<OapiDepartmentListResponse.Department> department) {
+    private Map<String, Object> getReturnData(List<OapiDepartmentListResponse.Department> departmentList) {
         Map<String, Object> allData = new HashMap<>();
-        for (int i = 0; i < department.size(); i++) {
-            Long parentId = department.get(i).getParentid();
+        List<Department> department = new ArrayList<>();
+        for (int i = 0; i < departmentList.size(); i++) {
+            Long parentId = departmentList.get(i).getParentid();
 //            如果没有父ID就是顶级
             if (parentId == null) {
-                List list = new ArrayList();
-                Map<String, Object> data = new HashMap<>();
-//                List list1 = new ArrayList();
-                String id = String.valueOf(department.get(i).getId());
-                String name = department.get(i).getName();
-                data.put("title", name);
-                data.put("id", id);
-                data.put("spread", "true");
-//              删除已经保存的记录
-                department.remove(i);
+                Department deptBean = new Department();
+                String id = String.valueOf(departmentList.get(i).getId());
+                String name = departmentList.get(i).getName();
+                deptBean.setId(id);
+                deptBean.setTitle(name);
+                deptBean.setSpread("true");
+                departmentList.remove(i);
                 i -= 1;
-                List childrenData = getChildrenData(department, id);
-                data.put("children", childrenData);
-                list.add(data);
-                allData.put("data", list);
+                deptBean.setChildren(getChildrenData(departmentList, id));
+                department.add(deptBean);
             }
         }
+        allData.put("data", department);
         return allData;
     }
 
-    private List getChildrenData(List<OapiDepartmentListResponse.Department> department, String parentId) {
-        List list = new ArrayList();
+    private List<Department> getChildrenData(List<OapiDepartmentListResponse.Department> department, String parentId) {
+        List<Department> list = new ArrayList();
         for (int i = 0; i < department.size(); i++) {
             String pid = String.valueOf(department.get(i).getParentid());
             if (parentId.equals(pid)) {
-                Map<String, Object> data = new HashMap<>();
                 String id = String.valueOf(department.get(i).getId());
                 String name = department.get(i).getName();
-                data.put("title", name);
-                data.put("id", id);
-                data.put("spread", "true");
-//              删除已经保存的记录
+                Department deptBean = new Department();
+                deptBean.setId(id);
+                deptBean.setTitle(name);
+                deptBean.setSpread("true");
                 department.remove(i);
                 i = 0;
-                List childrenData = getChildrenData(department, id);
-                if (childrenData.size() != 0) {
-                    data.put("children", childrenData);
-                }
-                list.add(data);
-                i -= 1;
+                deptBean.setChildren(getChildrenData(department, id));
+                list.add(deptBean);
             }
-
         }
         return list;
-
     }
 
 }
