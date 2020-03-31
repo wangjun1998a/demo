@@ -65,9 +65,7 @@ public class NavigationServiceImpl implements NavigationService {
         navigation.setDescpt(descpt);
         navigation.setUrl(url);
         navigationRepository.insertMenu(navigation);
-//        navigationRepository.insertMenu(name, pid, descpt, url);
         navigationRepository.menuCorrelationWithRole(name, pid, descpt, url);
-//        navigationRepository.menuCorrelationWithRole(navigation);
         return "200";
     }
 
