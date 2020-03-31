@@ -3,6 +3,7 @@ package com.example.demo;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
  * @author alin
  */
 @SpringBootApplication
+@MapperScan(basePackages = {"com.example.demo.permission.repository"})
 public class DemoApplication {
     @Bean("jasyptStringEncryptor")
     public StringEncryptor stringEncryptor() {

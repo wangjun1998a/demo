@@ -1,7 +1,6 @@
 package com.example.demo.permission.repository;
 
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -11,7 +10,6 @@ import java.util.Map;
  *
  * @author alin
  */
-@Mapper
 @Repository
 public interface LoggerRepository {
     /**

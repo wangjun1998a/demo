@@ -2,7 +2,6 @@ package com.example.demo.permission.repository;
 
 import com.example.demo.permission.bean.UserInfo;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author alin
  */
-@Mapper
 @Repository
 public interface UserInfoRepository {
 
