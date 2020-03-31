@@ -16,6 +16,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * AOP切点类
@@ -43,13 +45,17 @@ public class LoggerAspect {
 //            获取用户名
             String userName = SecurityContextHolder.getContext().getAuthentication().getName();
             String userRole = navigationRepository.getUserRole(userName);
-
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String ip = IpUtil.getIpAddress(request);
             String method = joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName();
-//            String role = employeeService.get(employeeId).getPosition();
             String desc = getControllerMethodDescription(joinPoint);
-            loggerService.insertLogger(ip, userRole, method, "role", desc);
+            Map<String, String> params = new HashMap<>();
+            params.put("ip", ip);
+            params.put("userRole", userRole);
+            params.put("method", method);
+            params.put("role", "role");
+            params.put("desc", desc);
+            loggerService.insertLogger(params);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +63,7 @@ public class LoggerAspect {
 
     public static String getControllerMethodDescription(JoinPoint joinPoint) throws ClassNotFoundException {
         String targetName = joinPoint.getTarget().getClass().getName();
-        String methodName = joinPoint.getSignature().getName();// 目标方法名
+        String methodName = joinPoint.getSignature().getName();
         Object[] arguments = joinPoint.getArgs();
         Class targetClass = Class.forName(targetName);
         Method[] methods = targetClass.getMethods();

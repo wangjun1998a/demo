@@ -5,7 +5,7 @@ import com.example.demo.permission.service.LoggerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Map;
 
 /**
  * @author alin
@@ -16,11 +16,13 @@ public class LoggerServiceImpl implements LoggerService {
     @Autowired
     private LoggerRepository loggerRepository;
 
-
+    /**
+     * 插入日志数据
+     *
+     * @param params Map
+     */
     @Override
-    public void insertLogger(String ip, String operator,
-                             String remark, String role,
-                             String description) {
-        loggerRepository.insertLogger(ip, operator, remark, role, description);
+    public void insertLogger(Map<String, String> params) {
+        loggerRepository.insertLogger(params);
     }
 }

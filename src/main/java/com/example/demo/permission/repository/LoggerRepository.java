@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 /**
  * 日志存取位置
  *
@@ -13,16 +15,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LoggerRepository {
     /**
-     * 日志插入的具体实现
+     * Map的方式传入参数
      *
-     * @param ip          IP
-     * @param operator    操作人
-     * @param remark      备注
-     * @param role        规则
-     * @param description 关联关系
+     * @param params Map
      */
-
-    @Insert("insert into `spring-security`.logger(ip, operator, remark, role,createTime, description)\n" +
-            "values (#{ip},#{operator},#{remark},#{role},now(),#{description});")
-    void insertLogger(String ip, String operator, String remark, String role, String description);
+    @Insert({"insert into `spring-security`.logger (ip, operator, remark, role,createTime, description)\n" +
+            "values (#{ip},#{userRole},#{method},#{role},now(),#{desc});"})
+    void insertLogger(Map<String, String> params);
 }

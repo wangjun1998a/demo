@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper
 @Repository
 @CacheNamespace
-public interface NavigationRepository{
+public interface NavigationRepository {
 
     /**
      * 获取数据表
@@ -91,17 +91,17 @@ public interface NavigationRepository{
     /**
      * 数据插入方法
      *
-     * @param name   name
-     * @param pid    pid
-     * @param descpt descpt
-     * @param url    url
+     * @param navigation navigation
      */
-    @Insert(value = "insert into `spring-security`.menu (name, pid, descpt, url, create_time, del_flag)\n" +
+    @Insert("insert into `spring-security`.menu (name, pid, descpt, url, create_time, del_flag) " +
             "values (#{name}, #{pid}, #{descpt}, #{url}, now(), '0');")
-    void insertMenu(@Param("name") String name,
-                    @Param("pid") Integer pid,
-                    @Param("descpt") String descpt,
-                    @Param("url") String url);
+    void insertMenu(Navigation navigation);
+//    @Insert(value = "insert into `spring-security`.menu (name, pid, descpt, url, create_time, del_flag)\n" +
+//            "values (#{name}, #{pid}, #{descpt}, #{url}, now(), '0');")
+//    void insertMenu(@Param("name") String name,
+//                    @Param("pid") Integer pid,
+//                    @Param("descpt") String descpt,
+//                    @Param("url") String url);
 
     /**
      * 创建菜单和权限的关联关系
@@ -133,4 +133,6 @@ public interface NavigationRepository{
             "set del_flag = 1\n" +
             "where id = #{id};")
     void deleteMenu(@Param("id") String id);
+
+
 }

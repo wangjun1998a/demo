@@ -59,8 +59,15 @@ public class NavigationServiceImpl implements NavigationService {
      */
     @Override
     public String insertMenu(String name, Integer pid, String descpt, String url) {
-        navigationRepository.insertMenu(name, pid, descpt, url);
+        Navigation navigation = new Navigation();
+        navigation.setName(name);
+        navigation.setPid(pid);
+        navigation.setDescpt(descpt);
+        navigation.setUrl(url);
+        navigationRepository.insertMenu(navigation);
+//        navigationRepository.insertMenu(name, pid, descpt, url);
         navigationRepository.menuCorrelationWithRole(name, pid, descpt, url);
+//        navigationRepository.menuCorrelationWithRole(navigation);
         return "200";
     }
 

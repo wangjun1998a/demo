@@ -34,6 +34,7 @@ public class NavigationController {
     public Map<String, Object> findMenuTable() {
         return navigationService.findMenuTable();
     }
+
     @LoggerOperator(description = "插入菜单")
     @GetMapping("/insertMenu")
     @ResponseBody
@@ -41,7 +42,7 @@ public class NavigationController {
     public String insertMenu(String name, Integer pid, String descpt, String url) {
         navigationService.insertMenu(name, pid, descpt, url);
         return "200";
-    }
+}
 
     @LoggerOperator(description = "删除菜单")
     @GetMapping("/deleteMenu")
