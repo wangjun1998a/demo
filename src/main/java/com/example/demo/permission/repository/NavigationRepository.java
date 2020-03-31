@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * @author alin
  */
+@Mapper
 @Repository
 @CacheNamespace
 public interface NavigationRepository {
