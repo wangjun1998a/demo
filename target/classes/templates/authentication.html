@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
+    <title>Authentication</title>
+    <script>
+        var getRequestFromUrl = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+    </script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" method="post" action="/login">
+        <p>
+            <label for="username" class="sr-only" hidden>Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名:"
+                   required
+                   autofocus hidden>
+        </p>
+        <br>
+        <p>
+            <label for="password" class="sr-only" hidden>Password</label>
+            <input type="password" id="password" name="password" class="form-control"
+                   placeholder="请输入密码:"
+                   required hidden>
+        </p>
+        <button id="buttonLogin" class="btn btn-lg btn-primary btn-block" type="submit" hidden>登录</button>
+    </form>
+</div>
+
+</body>
+
+<script>
+    var ddCode = getRequestFromUrl("code");
+    var ddState = getRequestFromUrl("state");
+    console.log("ddCode", ddCode);
+    console.log("ddState", ddState);
+    $.ajax({
+        url: "/getCodeMsg",
+        dataType: "json",
+        data: {
+            code: ddCode,
+            state: ddState
+        },
+        success: function (msg) {
+            console.log("msg:", msg);
+            if (msg.errcode == 0) {
+                //   成功登录
+                console.log("信息获取成功");
+                var tempValue = msg.user_info.openid;
+                var username = $("#username");
+                username.attr("value", tempValue);
+                // console.log("username:", msg.user_info.openid);
+
+                var password = $("#password");
+                password.attr("value", tempValue);
+                // console.log("password:", msg.user_info.openid);
+                $("#buttonLogin").click().delay(1000);
+            } else {
+                console.log(msg.errmsg);
+            }
+        }
+    });
+
+</script>
+</html>
